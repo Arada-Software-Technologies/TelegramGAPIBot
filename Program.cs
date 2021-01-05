@@ -14,31 +14,8 @@ namespace TelegramGAPIBot
         static bool start = false;
 
 
-        double operand1, operand2, result;
-
-
         static string btnUseCalculator = "Use Calculator";
         static string btnAboutTheDesigner = "About";
-
-        //static string btnNumberSeven = "7";
-        //static string btnNumberEight = "8";
-        //static string btnNumberNine = "9";
-        //static string btnNumberFour = "4";
-        //static string btnNumberFive = "5";
-        //static string btnNumberSix = "6";
-        //static string btnNumberOne = "1";
-        //static string btnNumbertwo = "2";
-        //static string btnNumberthree = "3";
-        //static string btnNumberZero = "0";
-        //static string btnPoint = ".";
-
-
-        static string btnAddn = "+";
-        static string btnSubn = "-";
-        static string btnTimes = "*";
-        static string btnDivide = "/";
-        static string btnEquals = "=";
-
 
 
         //true if on Operation going. . . 
@@ -66,40 +43,7 @@ namespace TelegramGAPIBot
 
             }
         }
-        
-        private static void BotClient_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
-        {
-            if (!onOperation)
-            {
-                if (e.Message.Text == "/Start")
-                {
-                    deleteErrorMsg(e);
-                    calculatorMenu(e);
-
-                }
-                else{
-                    ReplyKeyboardMarkup ikm = new ReplyKeyboardMarkup();
-                    botClient.SendTextMessageAsync(e.Message.Chat.Id, "Thanks for Choosing Me", replyMarkup: ikm);
-                }
-
-                
-
-            }
-
-
-        }
-        static void useCalculator(Telegram.Bot.Args.MessageEventArgs e)
-        {
-            botClient.DeleteMessageAsync(e.Message.Chat.Id, e.Message.MessageId);
-            botClient.DeleteMessageAsync(e.Message.Chat.Id, presgID);
-            //onOperation = true;
-            botClient.DeleteMessageAsync(e.Message.Chat.Id, e.Message.MessageId);
-            calculatorMenu(e);
-
-
-        }
-
-
+      
         static void calculatorMenu(Telegram.Bot.Args.MessageEventArgs e)
         {
 
@@ -139,60 +83,52 @@ namespace TelegramGAPIBot
 
             botClient.DeleteMessageAsync(e.Message.Chat.Id, e.Message.MessageId);
             botClient.SendTextMessageAsync(e.Message.Chat, "Send after inserting the Number you want to Operate", replyMarkup: keyboardMarkup);
-
-            
-
-
-
-
-
-
-
+  
         }
-        //function for welcoming the User
-        static void Welcome(Telegram.Bot.Args.MessageEventArgs e)
+
+        static void getNumberthen(Telegram.Bot.Args.MessageEventArgs e)
         {
-            // Defining the Keyboard buttons for the main menu
-            KeyboardButton[][] button = { new KeyboardButton[1], new KeyboardButton[1]};
-            
 
-            button[0][0] = new KeyboardButton(btnUseCalculator);
-            button[1][0] = new KeyboardButton(btnAboutTheDesigner);
-      
-
-            //Defining the Keyboard that contains the buttons above
-            ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup(button);
-
-            //adjusts the size of the custom keyboard to what is only is needed
-            keyboard.ResizeKeyboard = true;
-         
-            ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(button);
-            botClient.SendTextMessageAsync(e.Message.Chat, "Use the Buttons Provided Below :", replyMarkup: keyboardMarkup);
-
-            //deletes the '/start' text            
-            botClient.DeleteMessageAsync(e.Message.Chat.Id, e.Message.MessageId);
-
-
-            
-            //deletes the '/start' text            
-            botClient.DeleteMessageAsync(e.Message.Chat.Id, e.Message.MessageId);
-
-            if (e.Message.Text == "Use Calculator" || e.Message.Text == "btnUseCalculator")
+            onOperation = true;
+            if (e.Message.Text == "7")
             {
-                //botClient.DeleteMessageAsync(e.Message.Chat.Id, e.Message.MessageId);
-                //botClient.DeleteMessageAsync(e.Message.Chat.Id, markupMsgID);
-                //onOperation = true;
-                //useCalculator(e);
+                Console.WriteLine("seben");
+
+
             }
-            else if (e.Message.Text == "About" || e.Message.Text == "btnAboutTheDesigner")
+        }
+
+
+        
+        private static void BotClient_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
+        {
+
+            if (e.Message.Text == "/Start")
             {
-                botClient.DeleteMessageAsync(e.Message.Chat.Id, e.Message.MessageId);
-                botClient.DeleteMessageAsync(e.Message.Chat.Id, markupMsgID);
-                //ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-                botClient.SendTextMessageAsync(e.Message.Chat, "Designed and Developed by Bitsuamlak", replyMarkup: keyboardMarkup);
+                start = true;
+                if (start)
+                {
+                    deleteErrorMsg(e);
+                    calculatorMenu(e);
+                   if (e.Message.Text == "7")
+                    {
+                        onOperation = true;
+                        
+                     
+
+
+                    }
+                }
+               
+
             }
+
+
+         }
+
 
         }
-    }
+     
 }
+
 
